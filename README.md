@@ -15,7 +15,7 @@ git clone https://github.com/jpavonabian/Deploy-Joplin-with-docker-and-Nginx
 2. Copy the file containing the variables and edit it:
 
 ````bash
-cp example.env .env .env
+cp example.env .env
 nano .env
 ````
 
