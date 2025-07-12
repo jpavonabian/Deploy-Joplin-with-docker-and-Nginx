@@ -3,7 +3,7 @@ Este repositorio te permite desplegar fácilmente un servidor de notas personal 
 
 ---
 
-## 🚀 Pasos de instalación
+## Pasos de instalación
 
 1. Clona este repositorio:
 
@@ -76,7 +76,7 @@ Puedes (debes) cambiarla desde la interfaz web.
 
 ---
 
-## ✅ Requisitos
+## Requisitos
 
 * Docker y Docker Compose
 * NGINX instalado en la máquina
