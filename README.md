@@ -52,7 +52,7 @@ server {
 Habilita el sitio y recarga NGINX:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/notas.universoalterno.es /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/notas.tudominio.es /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
