@@ -1,84 +1,84 @@
 # Deploy-Joplin-with-docker-and-Nginx
-Este repositorio te permite desplegar fácilmente un servidor de notas personal con [Joplin Server](https://joplinapp.org/help/apps/server/), usando Docker y NGINX como proxy inverso con soporte HTTPS gracias a Certbot.
+This repository allows you to easily deploy a personal note server with [Joplin Server](https://joplinapp.org/help/apps/server/), using Docker and NGINX as a reverse proxy with HTTPS support thanks to Certbot.
 
 ---
 
-## Pasos de instalación
+## Installation steps
 
-1. Clona este repositorio:
+1. Clone this repository:
 
 ```bash
 git clone https://github.com/jpavonabian/Deploy-Joplin-with-docker-and-Nginx
-cd Deploy-Joplin-with-docker-and-Nginx
+ cd Deploy-Joplin-with-docker-and-Nginx
 ````
 
-2. Copia el archivo que contiene las variables y edítalo:
+2. Copy the file containing the variables and edit it:
 
-```bash
-cp example.env .env
+````bash
+cp example.env .env .env
 nano .env
-```
+````
 
-Rellena los datos SMTP, dominio y base de datos según tu configuración.
+Fill in the SMTP, domain and database data according to your configuration.
 
-3. Levanta los contenedores:
+3. Pull up the containers:
 
-```bash
+````bash
 docker compose up -d
-```
+````
 
-Esto iniciará Joplin Server y PostgreSQL en una red interna de Docker.
+This will start Joplin Server and PostgreSQL on an internal Docker network.
 
-4. Configura NGINX:
+4. Configure NGINX:
 
-Copia el siguiente archivo en `/etc/nginx/sites-available/notas.tudominio.es` y enlázalo en `sites-enabled`.
+Copy the following file to `/etc/nginx/sites-available/notes.yourdomain.com` and link it to `sites-enabled`.
 
-```nginx
+````nginx
 server {
-    listen 80;
-    server_name notas.tudominio.es;
+ listen 80;
+ server_name notes.yourdomain.com;
 
     location / {
-        proxy_pass http://127.0.0.1:22300;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
+ proxy_pass http://127.0.0.1:22300;
+ proxy_http_version 1.1;
+ proxy_set_header Host $host;
+ proxy_set_header X-Real-IP $remote_addr;
+ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+ proxy_set_header X-Forwarded-Proto $scheme;
+ } }
 }
-```
+`````
 
-Habilita el sitio y recarga NGINX:
+Enable the site and reload NGINX:
 
-```bash
-sudo ln -s /etc/nginx/sites-available/notas.tudominio.es /etc/nginx/sites-enabled/
+````bash
+sudo ln -s /etc/nginx/sites-available/notes.yourdomain.com /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
-```
+````
 
-5. Genera el certificado HTTPS con Certbot:
+5. Generate the HTTPS certificate with Certbot:
 
-```bash
-sudo certbot --nginx -d notas.tudominio.es
-```
-
----
-
-## Acceso por defecto
-
-Una vez desplegado, accede a `https://notas.tudominio.es` con:
-
-* **Usuario**: `admin@localhost`
-* **Contraseña**: `admin`
-
-Puedes (debes) cambiarla desde la interfaz web.
+````bash
+sudo certbot --nginx -d notes.yourdomain.com
+````
 
 ---
 
-## Requisitos
+## Default access
 
-* Docker y Docker Compose
-* NGINX instalado en la máquina
+Once deployed, access `https://notas.tudominio.es` with:
+
+* **User**: `admin@localhost`
+* **Password**: `admin`.
+
+You can (should) change it from the web interface.
+
+---
+
+## Requirements
+
+* Docker and Docker Compose
+* NGINX installed on the machine
 * Certbot (`sudo apt install certbot python3-certbot-nginx`)
-* Dominio apuntando correctamente al servidor
+* Domain pointing correctly to the server
