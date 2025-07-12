@@ -12,16 +12,16 @@ git clone https://github.com/jpavonabian/Deploy-Joplin-with-docker-and-Nginx
  cd Deploy-Joplin-with-docker-and-Nginx
 ````
 
-2. Copy the file containing the variables and edit it:
+2. Copy the environment variable file and edit it:
 
 ````bash
 cp example.env .env
 nano .env
 ````
 
-Fill in the SMTP, domain and database data according to your configuration.
+Fill in the SMTP, domain, and database information according to your setup.
 
-3. Pull up the containers:
+3. Start the containers:
 
 ````bash
 docker compose up -d
@@ -38,15 +38,16 @@ server {
  listen 80;
  server_name notes.yourdomain.com;
 
-    location / {
- proxy_pass http://127.0.0.1:22300;
- proxy_http_version 1.1;
- proxy_set_header Host $host;
- proxy_set_header X-Real-IP $remote_addr;
- proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
- proxy_set_header X-Forwarded-Proto $scheme;
- } }
+ location / {
+   proxy_pass http://127.0.0.1:22300;
+   proxy_http_version 1.1;
+   proxy_set_header Host $host;
+   proxy_set_header X-Real-IP $remote_addr;
+   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+   proxy_set_header X-Forwarded-Proto $scheme;
+ }
 }
+
 `````
 
 Enable the site and reload NGINX:
@@ -67,7 +68,7 @@ sudo certbot --nginx -d notes.yourdomain.com
 
 ## Default access
 
-Once deployed, access `https://notas.tudominio.es` with:
+Once deployed, access `https://notes.yourdomain.com` with:
 
 * **User**: `admin@localhost`
 * **Password**: `admin`.
@@ -82,3 +83,5 @@ You can (should) change it from the web interface.
 * NGINX installed on the machine
 * Certbot (`sudo apt install certbot python3-certbot-nginx`)
 * Domain pointing correctly to the server
+
+Pull requests and suggestions are welcome!
